@@ -8,7 +8,7 @@ import 'package:sizer/sizer.dart';
 
 class OnboardingPage extends StatelessWidget {
   static const String routeName = "/onboarding-page";
-  OnboardingPage({super.key});
+  OnboardingPage({Key? key}) : super(key: key);
   final _controller = OnboardingController();
 
   @override

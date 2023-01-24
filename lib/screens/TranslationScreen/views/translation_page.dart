@@ -3,7 +3,7 @@ import 'package:gd_party_app/navigation/custom_bottom_navigation_bar.dart';
 
 class TranslationPage extends StatelessWidget {
   static const String routeName = "/translation-page";
-  const TranslationPage({super.key});
+  const TranslationPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

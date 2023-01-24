@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 class ProfilePage extends GetView<ProfileController> {
   static const String routeName = "/profile-page";
-  ProfilePage({super.key});
+  ProfilePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

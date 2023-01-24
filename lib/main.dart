@@ -16,12 +16,12 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final bool onboardingFinished =
-        SharedPreferencesHelper.getBool("onboardFinished");
+    final bool onboardingFinished = false;
+    // SharedPreferencesHelper.getBool("onboardFinished");
     return Sizer(builder: (context, orientation, deviceType) {
       return GetMaterialApp(
         title: 'GD Party',
@@ -38,13 +38,16 @@ class MyApp extends StatelessWidget {
             TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
           }),
         ),
-        initialRoute:
-            onboardingFinished ? MainPage.routeName : OnboardingPage.routeName,
+        initialRoute: OnboardingPage.routeName,
         getPages: [
           GetPage(
             name: MainPage.routeName,
             page: () => MainPage(),
             binding: MainBinding(),
+          ),
+          GetPage(
+            name: OnboardingPage.routeName,
+            page: () => OnboardingPage(),
           ),
         ],
       );

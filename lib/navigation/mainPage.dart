@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gd_party_app/constants/colors.dart';
 import 'package:gd_party_app/navigation/custom_bottom_navigation_bar.dart';
 import 'package:gd_party_app/navigation/mainController.dart';
 import 'package:gd_party_app/screens/ProfileScreen/views/profile_page.dart';
@@ -16,16 +17,14 @@ class MainPage extends StatelessWidget {
     return GetBuilder<MainController>(
       builder: (controller) {
         return Scaffold(
-          body: SafeArea(
-            child: IndexedStack(
-              index: controller.tabIndex,
-              children: [
-                HomePage(),
-                SchedulePage(),
-                LocationPage(),
-                ProfilePage(),
-              ],
-            ),
+          body: IndexedStack(
+            index: controller.tabIndex,
+            children: [
+              HomePage(),
+              SchedulePage(),
+              LocationPage(),
+              ProfilePage(),
+            ],
           ),
           bottomNavigationBar: CustomAnimatedBottomBar(
             containerHeight: 70,
@@ -39,7 +38,7 @@ class MainPage extends StatelessWidget {
               BottomNavyBarItem(
                 icon: Icon(Icons.apps),
                 title: Text('Home'),
-                activeColor: Colors.green,
+                activeColor: LightColors.kDarkYellow,
                 inactiveColor: _inactiveColor,
                 textAlign: TextAlign.center,
               ),
