@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gd_party_app/controllers/onboarding_controller.dart';
+import 'package:gd_party_app/views/home_page.dart';
 import 'package:get/state_manager.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sizer/sizer.dart';
@@ -88,7 +89,9 @@ class OnboardingPage extends StatelessWidget {
               top: 20,
               right: 10,
               child: TextButton(
-                onPressed: _controller.goToMainScreenPage,
+                onPressed: () {
+                  Navigator.pushNamed(context, HomePage.routeName);
+                },
                 child: Text(
                   "Skip",
                   style: TextStyle(color: Theme.of(context).primaryColorLight),

@@ -13,7 +13,7 @@ class OnboardingController extends GetxController {
   goToMainScreenPage() {
     SharedPreferencesHelper.initSharedPrefs();
     SharedPreferencesHelper.setBool("onboardFinished", true);
-    Get.off(() => const HomePage());
+    Get.offNamed(HomePage.routeName);
   }
 
   skipToLast() {
@@ -25,7 +25,7 @@ class OnboardingController extends GetxController {
     if (!isLastPage) {
       pageController.nextPage(duration: 300.milliseconds, curve: Curves.ease);
     } else {
-      print("HELLOO");
+      goToMainScreenPage();
     }
   }
 
@@ -44,5 +44,10 @@ class OnboardingController extends GetxController {
         title: "Map Location",
         description:
             "Being in a new country can be daunting, allow us to make sure you're okay by sharing your live location with us"),
+    OnboardingModel(
+        imageUrl: "assets/onboardingIcons/arrival.json",
+        title: "Arrival Progress Tracker",
+        description:
+            "Share your airport progress with us so we can accomadate a smoother process to pick you up from the airport"),
   ];
 }
