@@ -16,7 +16,7 @@ Route<dynamic> onGenerateRoute(RouteSettings routeSettings) {
       );
     case MainPage.routeName:
       return MaterialPageRoute(
-        settings: routeSettings,
+        // settings: routeSettings,
         builder: (_) => MainPage(),
       );
     case OnboardingPage.routeName:

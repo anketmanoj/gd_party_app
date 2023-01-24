@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gd_party_app/constants/colors.dart';
 import 'package:gd_party_app/navigation/mainPAge.dart';
+import 'package:gd_party_app/navigation/main_binding.dart';
 import 'package:gd_party_app/router.dart';
 import 'package:gd_party_app/services/shared_preference_service.dart';
 import 'package:gd_party_app/screens/homeScreen/views/home_page.dart';
@@ -39,6 +40,13 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute:
             onboardingFinished ? MainPage.routeName : OnboardingPage.routeName,
+        getPages: [
+          GetPage(
+            name: MainPage.routeName,
+            page: () => MainPage(),
+            binding: MainBinding(),
+          ),
+        ],
       );
     });
   }

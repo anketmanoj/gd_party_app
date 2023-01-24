@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gd_party_app/navigation/mainPAge.dart';
 import 'package:gd_party_app/screens/onboardingScreen/models/onboarding_model.dart';
 import 'package:gd_party_app/services/shared_preference_service.dart';
-import 'package:gd_party_app/screens/homeScreen/views/home_page.dart';
 
 import 'package:get/get.dart';
 
@@ -13,7 +13,7 @@ class OnboardingController extends GetxController {
   goToMainScreenPage() {
     SharedPreferencesHelper.initSharedPrefs();
     SharedPreferencesHelper.setBool("onboardFinished", true);
-    Get.offNamed(HomePage.routeName);
+    Get.offNamed(MainPage.routeName);
   }
 
   skipToLast() {
