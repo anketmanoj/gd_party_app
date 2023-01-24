@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gd_party_app/navigation/custom_bottom_navigation_bar.dart';
+import 'package:gd_party_app/screens/ProfileScreen/controllers/profileController.dart';
+import 'package:get/get.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends GetView<ProfileController> {
   static const String routeName = "/profile-page";
-  const ProfilePage({super.key});
+  ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
