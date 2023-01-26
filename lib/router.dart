@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gd_party_app/navigation/mainPAge.dart';
+import 'package:gd_party_app/screens/eventEditingScreen/eventEditingPage.dart';
 import 'package:gd_party_app/screens/homeScreen/views/home_page.dart';
 import 'package:gd_party_app/screens/locationScreen/views/location_page.dart';
 import 'package:gd_party_app/screens/onboardingScreen/views/onboarding_page.dart';
@@ -9,6 +10,11 @@ import 'package:gd_party_app/screens/TranslationScreen/views/translation_page.da
 
 Route<dynamic> onGenerateRoute(RouteSettings routeSettings) {
   switch (routeSettings.name) {
+    case EventEditingPage.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (context) => EventEditingPage(),
+      );
     case HomePage.routeName:
       return MaterialPageRoute(
         settings: routeSettings,

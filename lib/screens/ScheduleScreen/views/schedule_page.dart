@@ -1,8 +1,14 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:gd_party_app/constants/colors.dart';
+import 'package:gd_party_app/screens/ScheduleScreen/views/calenderWidget.dart';
+import 'package:gd_party_app/screens/eventEditingScreen/eventEditingController.dart';
+import 'package:gd_party_app/screens/eventEditingScreen/eventEditingPage.dart';
 import 'package:gd_party_app/services/mock_data.dart';
 import 'package:gd_party_app/widgets/calendar_dates.dart';
 import 'package:gd_party_app/widgets/task_container.dart';
+import 'package:get/get.dart';
 
 class SchedulePage extends StatelessWidget {
   static const String routeName = "/schedule-page";
@@ -19,9 +25,16 @@ class SchedulePage extends StatelessWidget {
     );
   }
 
+  final EventEditingController eventEditingController =
+      Get.put(EventEditingController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Get.to(() => EventEditingPage()),
+        child: Icon(Icons.add),
+      ),
       backgroundColor: LightColors.kLightYellow,
       body: SafeArea(
         child: Padding(
@@ -57,102 +70,8 @@ class SchedulePage extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 30),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Jauary, 2023',
-                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
-                ),
-              ),
               SizedBox(height: 20.0),
-              Container(
-                height: 58.0,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: days.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return CalendarDates(
-                      day: days[index],
-                      date: dates[index],
-                      dayColor: index == 0 ? LightColors.kRed : Colors.black54,
-                      dateColor:
-                          index == 0 ? LightColors.kRed : LightColors.kDarkBlue,
-                    );
-                  },
-                ),
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 20.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Expanded(
-                          flex: 1,
-                          child: ListView.builder(
-                            itemCount: time.length,
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemBuilder: (BuildContext context, int index) =>
-                                Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 15.0),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  '${time[index]} ${time[index] > 8 ? 'PM' : 'AM'}',
-                                  style: TextStyle(
-                                    fontSize: 16.0,
-                                    color: Colors.black54,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: ListView(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            children: <Widget>[
-                              _dashedText(),
-                              TaskContainer(
-                                title: 'Arrival',
-                                subtitle: 'Arrival at Narita Airport',
-                                boxColor: LightColors.kLightYellow2,
-                              ),
-                              _dashedText(),
-                              TaskContainer(
-                                title: 'Pick up',
-                                subtitle: '',
-                                boxColor: LightColors.kLavender,
-                              ),
-                              TaskContainer(
-                                title: 'Arrive at Hotel',
-                                subtitle: 'Hotel Stay in Yokohama',
-                                boxColor: LightColors.kPalePink,
-                              ),
-                              TaskContainer(
-                                title: 'Dinner with GD Team',
-                                subtitle:
-                                    'Dinner meet up with the entire GD Team',
-                                boxColor: LightColors.kLightGreen,
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              Expanded(child: CalenderWidget()),
             ],
           ),
         ),

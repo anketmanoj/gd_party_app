@@ -40,6 +40,8 @@ dependencies:
   sizer: ^2.0.15
   shared_preferences: ^2.0.17
   percent_indicator: ^4.2.2
+  syncfusion_flutter_calendar: ^20.4.44
+  intl: ^0.18.0
 
 dev_dependencies:
   flutter_test:
