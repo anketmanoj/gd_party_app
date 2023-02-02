@@ -1,5 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:gd_party_app/navigation/custom_bottom_navigation_bar.dart';
+import 'package:gd_party_app/screens/locationScreen/controllers/locationController.dart';
+import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class LocationPage extends StatelessWidget {
   static const String routeName = "/location-page";
@@ -7,12 +12,48 @@ class LocationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text(
-          "Location",
+    return GetBuilder<LocationController>(builder: (locationController) {
+      return Scaffold(
+        body: Column(
+          children: [
+            Expanded(
+              child: GoogleMap(
+                mapType: MapType.normal,
+                initialCameraPosition: locationController.initGooglePosition,
+                onMapCreated: locationController.onMapCreated,
+                myLocationEnabled: true,
+                myLocationButtonEnabled: true,
+                trafficEnabled: true,
+                markers: locationController.markers.values.toSet(),
+                onTap: (argument) {
+                  log("arguments == $argument");
+                },
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                TextButton(
+                  onPressed: locationController.add,
+                  child: const Text('Add'),
+                ),
+                TextButton(
+                  onPressed: locationController.getSelectedId == null
+                      ? null
+                      : () => locationController
+                          .remove(locationController.getSelectedId!),
+                  child: const Text('Remove'),
+                ),
+              ],
+            ),
+          ],
         ),
-      ),
-    );
+        // floatingActionButton: FloatingActionButton.extended(
+        //   onPressed: _goToTheLake,
+        //   label: const Text('To the lake!'),
+        //   icon: const Icon(Icons.directions_boat),
+        // ),
+      );
+    });
   }
 }
