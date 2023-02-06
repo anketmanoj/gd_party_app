@@ -30,29 +30,8 @@ class LocationPage extends StatelessWidget {
                 },
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                TextButton(
-                  onPressed: locationController.add,
-                  child: const Text('Add'),
-                ),
-                TextButton(
-                  onPressed: locationController.getSelectedId == null
-                      ? null
-                      : () => locationController
-                          .remove(locationController.getSelectedId!),
-                  child: const Text('Remove'),
-                ),
-              ],
-            ),
           ],
         ),
-        // floatingActionButton: FloatingActionButton.extended(
-        //   onPressed: _goToTheLake,
-        //   label: const Text('To the lake!'),
-        //   icon: const Icon(Icons.directions_boat),
-        // ),
       );
     });
   }

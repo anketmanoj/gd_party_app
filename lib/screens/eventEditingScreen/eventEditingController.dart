@@ -1,8 +1,12 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_google_places_sdk/flutter_google_places_sdk.dart';
+import 'package:gd_party_app/constants/apiKeys.dart';
 import 'package:gd_party_app/screens/eventEditingScreen/eventEditingModel.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart' as gmf;
 
 class EventEditingController extends GetxController {
   final formKey = GlobalKey<FormState>();
@@ -12,6 +16,40 @@ class EventEditingController extends GetxController {
   var toDate = DateTime.now().add(const Duration(hours: 2)).obs;
   RxList<Event> _events = <Event>[].obs;
   RxList<Event> get events => _events;
+  Rx<LatLng>? _latLng;
+  Rx<LatLng>? get latLng => _latLng;
+  gmf.CameraPosition? _initCameraPosition;
+  gmf.CameraPosition? get initCameraPosition => _initCameraPosition;
+  bool _latLngSet = false;
+  bool get latLngSet => _latLngSet;
+  String _setFullAddress = "";
+  String get setFullAddress => _setFullAddress;
+
+  final Rx<Completer<gmf.GoogleMapController>> mapsController =
+      Completer<gmf.GoogleMapController>().obs;
+
+  void onMapCreated(gmf.GoogleMapController controller) async {
+    mapsController.value.complete(controller);
+
+    update();
+  }
+
+  void resetLatLng() {
+    _latLngSet = false;
+    update();
+  }
+
+  void getLatLngOfPlace({required LatLng latLngRecieved}) {
+    _latLngSet = true;
+    _latLng = latLngRecieved.obs;
+    log("${_latLng!.value.lat} , ${_latLng!.value.lng}");
+
+    _initCameraPosition = gmf.CameraPosition(
+      zoom: 17,
+      target: gmf.LatLng(_latLng!.value.lat, _latLng!.value.lng),
+    );
+    update();
+  }
 
   Rx<DateTime> _selectedDate = DateTime.now().obs;
   Rx<DateTime> get selectedDate => _selectedDate;
@@ -33,8 +71,11 @@ class EventEditingController extends GetxController {
   Future saveForm() async {
     final isValid = formKey.currentState!.validate();
 
-    if (isValid) {
+    if (isValid && _latLng != null) {
       Event event = Event(
+        placeDetail: _setFullAddress,
+        locationLat: _latLng!.value.lat,
+        locationLng: _latLng!.value.lng,
         title: titleController.text,
         description: descriptionController.text.isEmpty
             ? ""
@@ -50,6 +91,9 @@ class EventEditingController extends GetxController {
 
       addEvent(event);
       Get.back();
+    } else {
+      Get.snackbar("Incomplete Form",
+          "Please make sure you've added a title, description and the map location");
     }
   }
 
@@ -126,5 +170,38 @@ class EventEditingController extends GetxController {
       fromDate.value = toDate.value;
       update();
     }
+  }
+
+  final Rx<TextEditingController> appBarSearchController =
+      TextEditingController().obs;
+  final String _result = "Search";
+  String get result => _result;
+  RxList<AutocompletePrediction> _predictions = <AutocompletePrediction>[].obs;
+
+  RxList<AutocompletePrediction> get getPredictions => _predictions;
+
+  final places = FlutterGooglePlacesSdk(kGoogleApiKey);
+
+  void searchPlace() async {
+    log(appBarSearchController.string);
+    final predictions = await places
+        .findAutocompletePredictions(appBarSearchController.value.text);
+
+    log('Result List: ${predictions.predictions[0].fullText}');
+
+    _predictions.value = predictions.predictions;
+    update();
+  }
+
+  void onTapPlace({required AutocompletePrediction selectedPrediction}) async {
+    FetchPlaceResponse response = await places
+        .fetchPlace(selectedPrediction.placeId, fields: [PlaceField.Location]);
+    _setFullAddress = selectedPrediction.fullText;
+    log("ADDRESS == ${_setFullAddress}");
+    update();
+
+    getLatLngOfPlace(latLngRecieved: response.place!.latLng!);
+
+    log(response.toString());
   }
 }

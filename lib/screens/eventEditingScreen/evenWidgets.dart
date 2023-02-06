@@ -1,7 +1,14 @@
+import 'dart:developer' as dev;
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:gd_party_app/constants/apiKeys.dart';
 import 'package:gd_party_app/screens/eventEditingScreen/eventEditingController.dart';
 import 'package:gd_party_app/services/utils.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import 'package:sizer/sizer.dart';
 
 class BuildTitle extends StatelessWidget {
   BuildTitle({
@@ -133,4 +140,160 @@ class BuildDateTimePickers extends StatelessWidget {
           child,
         ],
       );
+}
+
+class SearchPlace extends StatelessWidget {
+  SearchPlace({Key? key}) : super(key: key);
+  final EventEditingController eventEditingController =
+      Get.put(EventEditingController());
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        InkWell(
+          onTap: () async {
+            eventEditingController.searchPlace();
+          },
+          child: Expanded(
+            child: Container(
+              alignment: Alignment.center,
+              height: 5.h,
+              color: Colors.red,
+              child: Text("Search"),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class SearchAppBarWidget extends StatelessWidget {
+  final EventEditingController eventEditingController =
+      Get.put(EventEditingController());
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.all(Radius.circular(30.0)),
+      ),
+      child: TextField(
+        controller: eventEditingController.appBarSearchController.value,
+        decoration: InputDecoration(
+          hintText: "Search for a place",
+          suffixIcon: IconButton(
+            icon: Icon(Icons.search),
+            onPressed: eventEditingController.searchPlace,
+          ),
+          border: InputBorder.none,
+        ),
+        style: TextStyle(
+          fontSize: 16.0,
+        ),
+      ),
+    );
+  }
+}
+
+class SearchResultsList extends StatelessWidget {
+  SearchResultsList({Key? key}) : super(key: key);
+
+  final EventEditingController eventEditingController =
+      Get.put(EventEditingController());
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() {
+      return ListView.builder(
+        itemBuilder: (context, index) {
+          return ListTile(
+            onTap: () {
+              eventEditingController.onTapPlace(
+                  selectedPrediction:
+                      eventEditingController.getPredictions[index]);
+            },
+            title:
+                Text(eventEditingController.getPredictions[index].primaryText),
+            subtitle: Text(
+                eventEditingController.getPredictions[index].secondaryText),
+          );
+        },
+        itemCount: eventEditingController.getPredictions.length,
+        shrinkWrap: true,
+      );
+    });
+  }
+}
+
+class LocationSelected extends StatelessWidget {
+  const LocationSelected({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<EventEditingController>(builder: (eec) {
+      return Visibility(
+        replacement: Container(
+          height: 20.h,
+          width: 100.w,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20), color: Colors.red),
+          child: eec.initCameraPosition != null
+              ? Stack(
+                  children: [
+                    AbsorbPointer(
+                      absorbing: true,
+                      child: GoogleMap(
+                        mapType: MapType.normal,
+                        initialCameraPosition: eec.initCameraPosition!,
+                        onMapCreated: eec.onMapCreated,
+                        myLocationEnabled: false,
+                        myLocationButtonEnabled: false,
+                        trafficEnabled: true,
+                        markers: {
+                          Marker(
+                            markerId: MarkerId("initMarker"),
+                            position: LatLng(
+                              eec.latLng!.value.lat,
+                              eec.latLng!.value.lng,
+                            ),
+                          ),
+                        },
+                        onTap: (argument) {},
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 5,
+                      right: 5,
+                      child: InkWell(
+                        onTap: eec.resetLatLng,
+                        child: Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white.withOpacity(0.5),
+                          ),
+                          child: Icon(Icons.edit),
+                        ),
+                      ),
+                    )
+                  ],
+                )
+              : SizedBox(),
+        ),
+        visible: eec.latLngSet == false,
+        child: Column(
+          children: [
+            SearchAppBarWidget(),
+            SearchResultsList(),
+          ],
+        ),
+      );
+    });
+  }
 }

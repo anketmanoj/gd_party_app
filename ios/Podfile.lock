@@ -1,5 +1,8 @@
 PODS:
   - Flutter (1.0.0)
+  - flutter_google_places_sdk_ios (0.0.1):
+    - Flutter
+    - GooglePlaces
   - google_maps_flutter_ios (0.0.1):
     - Flutter
     - GoogleMaps
@@ -8,22 +11,27 @@ PODS:
   - GoogleMaps/Base (5.2.0)
   - GoogleMaps/Maps (5.2.0):
     - GoogleMaps/Base
+  - GooglePlaces (5.1.0)
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
+  - flutter_google_places_sdk_ios (from `.symlinks/plugins/flutter_google_places_sdk_ios/ios`)
   - google_maps_flutter_ios (from `.symlinks/plugins/google_maps_flutter_ios/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/ios`)
 
 SPEC REPOS:
   trunk:
     - GoogleMaps
+    - GooglePlaces
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
+  flutter_google_places_sdk_ios:
+    :path: ".symlinks/plugins/flutter_google_places_sdk_ios/ios"
   google_maps_flutter_ios:
     :path: ".symlinks/plugins/google_maps_flutter_ios/ios"
   shared_preferences_foundation:
@@ -31,8 +39,10 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  flutter_google_places_sdk_ios: 68d8df9529e979d2554bdb8076020f7515ab566d
   google_maps_flutter_ios: 66201f392bf62d500f07670a30488a247b9bb5b9
   GoogleMaps: 025272d5876d3b32604e5c080dc25eaf68764693
+  GooglePlaces: c57cd5aa7e91d10fa5106c792de74f3bd6436260
   shared_preferences_foundation: 297b3ebca31b34ec92be11acd7fb0ba932c822ca
 
 PODFILE CHECKSUM: ef19549a9bc3046e7bb7d2fab4d021637c0c58a3

@@ -4,6 +4,7 @@ import 'dart:developer' as dev;
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:gd_party_app/screens/eventEditingScreen/eventEditingModel.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -21,9 +22,18 @@ class LocationController extends GetxController {
   MarkerId? get getSelectedId => _selectedId;
 
   final CameraPosition _initGooglePosition = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
+    target: LatLng(35.588718277489804, 139.47903286742255),
+    zoom: 15,
   );
+
+  bool checkIfMarkerExists(Event event) {
+    if (markers
+        .containsKey("marker_id_${event.locationLat}${event.locationLng}")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   CameraPosition get initGooglePosition => _initGooglePosition;
 
@@ -92,24 +102,33 @@ class LocationController extends GetxController {
     }
   }
 
-  void add() {
+  void getMarkersFromEvents() {}
+
+  void add(
+      {required double latitude,
+      required double longitude,
+      String? title,
+      String? description}) {
     final int markerCount = markers.length;
 
     if (markerCount == 12) {
       return;
     }
 
-    final String markerIdVal = 'marker_id_$_markerIdCounter';
+    final String markerIdVal = 'marker_id_$latitude$longitude';
     _markerIdCounter++;
     final MarkerId markerId = MarkerId(markerIdVal);
 
     final Marker marker = Marker(
       markerId: markerId,
       position: LatLng(
-        center.latitude + sin(_markerIdCounter * pi / 6.0) / 20.0,
-        center.longitude + cos(_markerIdCounter * pi / 6.0) / 20.0,
+        latitude,
+        longitude,
       ),
-      infoWindow: InfoWindow(title: markerIdVal, snippet: '*'),
+      infoWindow: InfoWindow(
+        title: title ?? markerIdVal,
+        snippet: description ?? '*',
+      ),
       onTap: () => onMarkerTapped(markerId),
       onDragEnd: (LatLng position) => onMarkerDragEnd(markerId, position),
       onDrag: (LatLng position) => onMarkerDrag(markerId, position),

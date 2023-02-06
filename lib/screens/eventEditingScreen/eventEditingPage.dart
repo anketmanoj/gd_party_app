@@ -3,6 +3,7 @@ import 'package:gd_party_app/screens/eventEditingScreen/evenWidgets.dart';
 import 'package:gd_party_app/screens/eventEditingScreen/eventEditingController.dart';
 import 'package:gd_party_app/screens/eventEditingScreen/eventEditingModel.dart';
 import 'package:get/get.dart';
+import 'package:sizer/sizer.dart';
 
 class EventEditingPage extends GetView<EventEditingController> {
   static const String routeName = "/event-editing-page";
@@ -40,6 +41,10 @@ class EventEditingPage extends GetView<EventEditingController> {
                   height: 10,
                 ),
                 BuildEventDescription(),
+                SizedBox(
+                  height: 10,
+                ),
+                LocationSelected()
               ],
             ),
           ),
