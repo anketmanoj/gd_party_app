@@ -35,6 +35,19 @@ class LocationController extends GetxController {
     }
   }
 
+  Future<void> setEventLocationPosition(
+      {required double lat, required double lng}) async {
+    CameraPosition _eventLocation = CameraPosition(
+        target: LatLng(lat, lng),
+        tilt: 59.440717697143555,
+        zoom: 17.151926040649414);
+
+    final GoogleMapController controller = await mapsController.value.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(_eventLocation));
+
+    update();
+  }
+
   CameraPosition get initGooglePosition => _initGooglePosition;
 
   void onMapCreated(GoogleMapController controller) {

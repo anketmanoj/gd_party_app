@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:gd_party_app/constants/apiKeys.dart';
 import 'package:gd_party_app/screens/eventEditingScreen/eventEditingModel.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as gmf;
+import 'package:http/http.dart' as http;
 
 class EventEditingController extends GetxController {
   final formKey = GlobalKey<FormState>();
@@ -24,6 +26,7 @@ class EventEditingController extends GetxController {
   bool get latLngSet => _latLngSet;
   String _setFullAddress = "";
   String get setFullAddress => _setFullAddress;
+  String url = "";
 
   final Rx<Completer<gmf.GoogleMapController>> mapsController =
       Completer<gmf.GoogleMapController>().obs;
@@ -68,11 +71,32 @@ class EventEditingController extends GetxController {
     log(_events.length.toString());
   }
 
+  Future<void> fetchPhoto({required String placeId}) async {
+    final place_id = placeId;
+
+    final placeRes = await http.get(Uri.parse(
+        'https://maps.googleapis.com/maps/api/place/details/json?place_id=$place_id&key=$kGoogleApiKey'));
+
+    final Map<String, dynamic> placeData = jsonDecode(placeRes.body);
+
+    final List photos = placeData['result']["photos"];
+
+    for (var photo in photos) {
+      final photo_reference = photo['photo_reference'];
+      final url =
+          "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=$photo_reference&key=$kGoogleApiKey";
+      this.url = url;
+      log("URL ===== ${this.url}");
+      update();
+    }
+  }
+
   Future saveForm() async {
     final isValid = formKey.currentState!.validate();
 
     if (isValid && _latLng != null) {
       Event event = Event(
+        imgUrl: url,
         placeDetail: _setFullAddress,
         locationLat: _latLng!.value.lat,
         locationLng: _latLng!.value.lng,
@@ -199,6 +223,8 @@ class EventEditingController extends GetxController {
     _setFullAddress = selectedPrediction.fullText;
     log("ADDRESS == ${_setFullAddress}");
     update();
+
+    await fetchPhoto(placeId: selectedPrediction.placeId);
 
     getLatLngOfPlace(latLngRecieved: response.place!.latLng!);
 

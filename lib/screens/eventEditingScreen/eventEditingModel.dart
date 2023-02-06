@@ -10,6 +10,7 @@ class Event {
   final double locationLat;
   final double locationLng;
   final String placeDetail;
+  final String imgUrl;
 
   Event({
     required this.title,
@@ -21,5 +22,6 @@ class Event {
     required this.locationLat,
     required this.locationLng,
     required this.placeDetail,
+    required this.imgUrl,
   });
 }
