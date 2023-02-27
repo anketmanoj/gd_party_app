@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:gd_party_app/constants/colors.dart';
 import 'package:gd_party_app/navigation/custom_bottom_navigation_bar.dart';
+import 'package:gd_party_app/services/Users/userController.dart';
 import 'package:gd_party_app/widgets/active_project_card.dart';
 import 'package:gd_party_app/widgets/task_column.dart';
 import 'package:gd_party_app/widgets/top_container.dart';
+import 'package:get/get.dart';
+import 'package:http/http.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:sizer/sizer.dart';
 
 class HomePage extends StatelessWidget {
   static const String routeName = "/home-page";
-  const HomePage({Key? key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
+  UserController userController = Get.put(UserController());
   Text subheading(String title) {
     return Text(
       title,
@@ -63,10 +67,14 @@ class HomePage extends StatelessWidget {
                         progressColor: LightColors.kRed,
                         backgroundColor: LightColors.kDarkYellow,
                         center: CircleAvatar(
-                          backgroundColor: LightColors.kBlue,
-                          radius: 25.0,
-                          child: Icon(Icons.person),
-                        ),
+                            backgroundColor: LightColors.kLavender,
+                            radius: 25.0,
+                            child: userController.userModel.userimage == null
+                                ? Icon(Icons.person)
+                                : Image.network(
+                                    userController.userModel.userimage!,
+                                    fit: BoxFit.cover,
+                                  )),
                       ),
                       SizedBox(
                         width: 10,
@@ -74,20 +82,19 @@ class HomePage extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Container(
-                            child: Text(
-                              'Anket Waswani',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 22.0,
-                                color: LightColors.kDarkBlue,
-                                fontWeight: FontWeight.w800,
-                              ),
+                          Text(
+                            userController.userModel.username.capitalize!,
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 22.0,
+                              color: LightColors.kDarkBlue,
+                              fontWeight: FontWeight.w800,
                             ),
                           ),
-                          Container(
+                          Visibility(
+                            visible: userController.userModel.userBio != null,
                             child: Text(
-                              'App Developer',
+                              userController.userModel.userBio ?? "",
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                 fontSize: 16.0,

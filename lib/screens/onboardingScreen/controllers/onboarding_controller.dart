@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gd_party_app/navigation/mainPAge.dart';
+import 'package:gd_party_app/screens/loginScreen/loginScreenView.dart';
 import 'package:gd_party_app/screens/onboardingScreen/models/onboarding_model.dart';
 import 'package:gd_party_app/services/shared_preference_service.dart';
 
@@ -10,10 +11,10 @@ class OnboardingController extends GetxController {
   final pageController = PageController();
   bool get isLastPage => selectedPageIndex.value == onboardingPages.length - 1;
 
-  goToMainScreenPage() {
+  goToLoginScreenPage() {
     SharedPreferencesHelper.initSharedPrefs();
     SharedPreferencesHelper.setBool("onboardFinished", true);
-    Get.offNamed(MainPage.routeName);
+    Get.offNamed(LoginScreen.routeName);
   }
 
   skipToLast() {
@@ -25,7 +26,7 @@ class OnboardingController extends GetxController {
     if (!isLastPage) {
       pageController.nextPage(duration: 300.milliseconds, curve: Curves.ease);
     } else {
-      goToMainScreenPage();
+      goToLoginScreenPage();
     }
   }
 

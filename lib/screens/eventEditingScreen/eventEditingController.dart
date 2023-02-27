@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places_sdk/flutter_google_places_sdk.dart';
 import 'package:gd_party_app/constants/apiKeys.dart';
@@ -27,6 +28,29 @@ class EventEditingController extends GetxController {
   String _setFullAddress = "";
   String get setFullAddress => _setFullAddress;
   String url = "";
+
+  // run getEventsListFromDb() when the controller is initialized once
+  @override
+  void onInit() {
+    super.onInit();
+    getEventsListFromDb();
+  }
+
+  Future<void> getEventsListFromDb() async {
+    try {
+      log("Getting events list from db...");
+      QuerySnapshot eventSnapshot = await FirebaseFirestore.instance
+          .collection("events")
+          .orderBy("from")
+          .get();
+      _events.value = eventSnapshot.docs
+          .map((e) => Event.fromJson(e.data() as Map<String, dynamic>))
+          .toList();
+      update();
+    } catch (e) {
+      log("Error in getting events list from db: $e");
+    }
+  }
 
   final Rx<Completer<gmf.GoogleMapController>> mapsController =
       Completer<gmf.GoogleMapController>().obs;
@@ -104,8 +128,8 @@ class EventEditingController extends GetxController {
         description: descriptionController.text.isEmpty
             ? ""
             : descriptionController.text,
-        from: fromDate.value,
-        to: toDate.value,
+        from: Timestamp.fromDate(fromDate.value),
+        to: Timestamp.fromDate(toDate.value),
       );
 
       titleController.clear();
@@ -113,7 +137,9 @@ class EventEditingController extends GetxController {
       fromDate.value = DateTime.now();
       toDate = DateTime.now().add(const Duration(hours: 2)).obs;
 
-      addEvent(event);
+      await FirebaseFirestore.instance.collection("events").add(event.toJson());
+
+      // addEvent(event);
       Get.back();
     } else {
       Get.snackbar("Incomplete Form",

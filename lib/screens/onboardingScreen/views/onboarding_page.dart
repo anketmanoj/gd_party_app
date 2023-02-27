@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gd_party_app/navigation/mainPAge.dart';
+import 'package:gd_party_app/screens/loginScreen/loginScreenView.dart';
 import 'package:gd_party_app/screens/onboardingScreen/controllers/onboarding_controller.dart';
 import 'package:gd_party_app/screens/homeScreen/views/home_page.dart';
 import 'package:get/state_manager.dart';
@@ -92,7 +93,7 @@ class OnboardingPage extends StatelessWidget {
               right: 10,
               child: TextButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, MainPage.routeName);
+                  Navigator.pushNamed(context, LoginScreen.routeName);
                 },
                 child: Text(
                   "Skip",

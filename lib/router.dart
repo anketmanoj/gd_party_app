@@ -3,6 +3,7 @@ import 'package:gd_party_app/navigation/mainPAge.dart';
 import 'package:gd_party_app/screens/eventEditingScreen/eventEditingPage.dart';
 import 'package:gd_party_app/screens/homeScreen/views/home_page.dart';
 import 'package:gd_party_app/screens/locationScreen/views/location_page.dart';
+import 'package:gd_party_app/screens/loginScreen/loginScreenView.dart';
 import 'package:gd_party_app/screens/onboardingScreen/views/onboarding_page.dart';
 import 'package:gd_party_app/screens/ProfileScreen/views/profile_page.dart';
 import 'package:gd_party_app/screens/ScheduleScreen/views/schedule_page.dart';
@@ -34,6 +35,11 @@ Route<dynamic> onGenerateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => ProfilePage(),
+      );
+    case LoginScreen.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => LoginScreen(),
       );
     case LocationPage.routeName:
       return MaterialPageRoute(

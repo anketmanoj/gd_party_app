@@ -5,7 +5,9 @@ import 'package:gd_party_app/constants/colors.dart';
 import 'package:gd_party_app/screens/ScheduleScreen/views/calenderWidget.dart';
 import 'package:gd_party_app/screens/eventEditingScreen/eventEditingController.dart';
 import 'package:gd_party_app/screens/eventEditingScreen/eventEditingPage.dart';
+import 'package:gd_party_app/services/Users/userController.dart';
 import 'package:gd_party_app/services/mock_data.dart';
+import 'package:gd_party_app/services/shared_preference_service.dart';
 import 'package:gd_party_app/widgets/calendar_dates.dart';
 import 'package:gd_party_app/widgets/task_container.dart';
 import 'package:get/get.dart';
@@ -28,13 +30,17 @@ class SchedulePage extends StatelessWidget {
   final EventEditingController eventEditingController =
       Get.put(EventEditingController());
 
+  final UserController userController = Get.put(UserController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Get.to(() => EventEditingPage()),
-        child: Icon(Icons.add),
-      ),
+      floatingActionButton: userController.userModel.isAdmin
+          ? FloatingActionButton(
+              onPressed: () => Get.to(() => EventEditingPage()),
+              child: Icon(Icons.add),
+            )
+          : null,
       backgroundColor: LightColors.kLightYellow,
       body: SafeArea(
         child: Padding(
