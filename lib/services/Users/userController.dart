@@ -10,11 +10,14 @@ import 'package:gd_party_app/screens/UsersDetails/usersDetailPage.dart';
 import 'package:gd_party_app/screens/loginScreen/loginScreenView.dart';
 import 'package:gd_party_app/services/Users/adminFunctionsModel.dart';
 import 'package:gd_party_app/services/Users/userModel.dart';
+import 'package:gd_party_app/services/fcm_notification_service.dart';
 import 'package:gd_party_app/services/shared_preference_service.dart';
 import 'package:get/get.dart';
 
 class UserController extends GetxController {
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
+  final FCMNotificationService _fcmNotificationService =
+      FCMNotificationService();
   final Rx<UserModel> _userModel = UserModel(
     username: '',
     password: '',
@@ -118,6 +121,18 @@ class UserController extends GetxController {
         .update({
       'isAdmin': newIsAdmin,
     });
+    update();
+  }
+
+  Future<void> adminSendNotificationToUser(
+      {required String title,
+      required String body,
+      required UserModel adminSelectedUser}) async {
+    await _fcmNotificationService.sendNotificationToUser(
+        to: adminSelectedUser.userDeviceToken!, //To change once set up
+        title: title,
+        body: body);
+
     update();
   }
 

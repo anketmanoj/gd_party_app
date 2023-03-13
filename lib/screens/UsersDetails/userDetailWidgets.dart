@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:gd_party_app/screens/UsersDetails/editUserPage.dart';
+import 'package:gd_party_app/screens/UsersDetails/sendUserNotificationScreen.dart';
 import 'package:gd_party_app/services/Users/userController.dart';
 import 'package:gd_party_app/services/Users/userModel.dart';
 import 'package:get/get.dart';
@@ -35,6 +36,11 @@ void onMoreOptionsClicked({required UserModel userModel}) {
             title: Text('Send Notification'),
             onTap: () {
               log('Send Notification clicked');
+              Get.back();
+              Get.toNamed(
+                SendUserNotification.routeName,
+                arguments: userModel,
+              );
             },
           ),
         ],

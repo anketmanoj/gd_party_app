@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gd_party_app/navigation/mainPAge.dart';
 import 'package:gd_party_app/screens/ProfileScreen/profile_page.dart';
 import 'package:gd_party_app/screens/UsersDetails/editUserPage.dart';
+import 'package:gd_party_app/screens/UsersDetails/sendUserNotificationScreen.dart';
 import 'package:gd_party_app/screens/UsersDetails/usersDetailPage.dart';
 import 'package:gd_party_app/screens/eventEditingScreen/eventEditingPage.dart';
 import 'package:gd_party_app/screens/homeScreen/views/home_page.dart';
@@ -23,6 +24,13 @@ Route<dynamic> onGenerateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (context) => EditUserPage(
+          userModel: routeSettings.arguments as UserModel,
+        ),
+      );
+    case SendUserNotification.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (context) => SendUserNotification(
           userModel: routeSettings.arguments as UserModel,
         ),
       );
