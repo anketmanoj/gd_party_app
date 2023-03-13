@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gd_party_app/constants/colors.dart';
 import 'package:gd_party_app/navigation/custom_bottom_navigation_bar.dart';
 import 'package:gd_party_app/navigation/mainController.dart';
-import 'package:gd_party_app/screens/ProfileScreen/views/profile_page.dart';
+import 'package:gd_party_app/screens/ProfileScreen/profile_page.dart';
 import 'package:gd_party_app/screens/ScheduleScreen/views/schedule_page.dart';
 import 'package:gd_party_app/screens/homeScreen/views/home_page.dart';
 import 'package:gd_party_app/screens/locationScreen/views/location_page.dart';

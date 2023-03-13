@@ -1,24 +1,36 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gd_party_app/navigation/mainPage.dart';
+import 'package:gd_party_app/screens/UsersDetails/usersDetailPage.dart';
 import 'package:gd_party_app/screens/loginScreen/loginScreenView.dart';
+import 'package:gd_party_app/services/Users/adminFunctionsModel.dart';
 import 'package:gd_party_app/services/Users/userModel.dart';
 import 'package:gd_party_app/services/shared_preference_service.dart';
 import 'package:get/get.dart';
 
 class UserController extends GetxController {
+  final FirebaseMessaging _fcm = FirebaseMessaging.instance;
   final Rx<UserModel> _userModel = UserModel(
     username: '',
     password: '',
     isAdmin: false,
   ).obs;
+  final RxList<UserModel> _userList = <UserModel>[].obs;
+  final RxList<AdminFunctionalityModel> _adminFunctionsList =
+      <AdminFunctionalityModel>[].obs;
 
   RxString username = ''.obs;
   RxString password = ''.obs;
 
   // getter
   UserModel get userModel => _userModel.value;
+  List<UserModel> get userList => _userList;
+  List<AdminFunctionalityModel> get adminFunctionsList => _adminFunctionsList;
 
   // init
   @override
@@ -35,12 +47,121 @@ class UserController extends GetxController {
       );
 
       // Add timer for 3 seconds
-      Future.delayed(Duration(seconds: 3), () {
+      Future.delayed(Duration(seconds: 2), () async {
+        await loadUserDeviceToken();
         Get.toNamed(MainPage.routeName);
       });
 
       // Get.offNamed(MainPage.routeName);
     }
+  }
+
+  void loadAdminFunctionalityList() {
+    _adminFunctionsList.value = [
+      AdminFunctionalityModel(
+        title: "Users Details",
+        icon: Icons.people,
+        onTap: () {
+          log("User List pressed");
+          Get.toNamed(UsersDetailsPage.routeName);
+        },
+      ),
+      AdminFunctionalityModel(
+        title: "Add Event",
+        icon: Icons.event,
+        onTap: () {
+          log("Add Event pressed");
+        },
+      ),
+      AdminFunctionalityModel(
+        title: "Send Notification",
+        icon: Icons.notifications,
+        onTap: () {
+          log("Send Notification pressed");
+        },
+      ),
+    ];
+  }
+
+  Future<void> updateUserPassword(
+      {required UserModel selectedUser, required String newPassword}) async {
+    log("updateUserPassword() called");
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(selectedUser.username)
+        .update({
+      'password': newPassword,
+    });
+    update();
+  }
+
+  Future<void> updateUserArrivalDate(
+      {required UserModel selectedUser, required Timestamp newDate}) async {
+    log("updateUserArrivalDate() called");
+    // log timestamp
+    log("newDate: ${newDate.toDate()}");
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(selectedUser.username)
+        .update({
+      'arrivalDate': newDate,
+    });
+    update();
+  }
+
+  Future<void> updateUserIsAdmin(
+      {required UserModel selectedUser, required bool newIsAdmin}) async {
+    log("updateUserIsAdmin() called");
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(selectedUser.username)
+        .update({
+      'isAdmin': newIsAdmin,
+    });
+    update();
+  }
+
+  Future<void> getAllUsersFromDb() async {
+    log("getAllUsersFromDb() called");
+    loadAdminFunctionalityList();
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection("users").get();
+    _userList.value = querySnapshot.docs
+        .map((doc) => UserModel.fromJson(doc.data() as Map<String, dynamic>))
+        .toList();
+    log("_userList.length: ${_userList.length}");
+    update();
+  }
+
+  Future<void> loadUserDeviceToken() async {
+    log("loadUserDeviceToken() called");
+
+    if (Platform.isIOS) {
+      NotificationSettings settings = await _fcm.requestPermission(
+        alert: true,
+        announcement: false,
+        badge: true,
+        carPlay: true,
+        criticalAlert: true,
+        provisional: false,
+        sound: true,
+      );
+    } else {
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge,
+          overlays: [SystemUiOverlay.top]);
+    }
+
+    _fcm.getAPNSToken().then((value) => print("APN Token === $value"));
+
+    String? token = await _fcm.getToken();
+    assert(token != null);
+
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(_userModel.value.username)
+        .update({
+      'userDeviceToken': token,
+    });
   }
 
   void setUserModel(UserModel userModel) {
@@ -74,6 +195,7 @@ class UserController extends GetxController {
         SharedPreferencesHelper.setString("password", userModel.password);
         SharedPreferencesHelper.setBool("isAdmin", userModel.isAdmin);
         SharedPreferencesHelper.setBool("isLoggedIn", true);
+        await loadUserDeviceToken();
         Get.offNamed(MainPage.routeName);
       } else {
         SharedPreferencesHelper.setBool("isLoggedIn", false);

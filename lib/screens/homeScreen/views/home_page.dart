@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gd_party_app/constants/colors.dart';
 import 'package:gd_party_app/navigation/custom_bottom_navigation_bar.dart';
+import 'package:gd_party_app/screens/ProfileScreen/profilePageWidgets.dart';
+import 'package:gd_party_app/screens/eventEditingScreen/eventEditingController.dart';
 import 'package:gd_party_app/services/Users/userController.dart';
 import 'package:gd_party_app/widgets/active_project_card.dart';
 import 'package:gd_party_app/widgets/task_column.dart';
@@ -67,14 +69,22 @@ class HomePage extends StatelessWidget {
                         progressColor: LightColors.kRed,
                         backgroundColor: LightColors.kDarkYellow,
                         center: CircleAvatar(
-                            backgroundColor: LightColors.kLavender,
-                            radius: 25.0,
-                            child: userController.userModel.userimage == null
-                                ? Icon(Icons.person)
-                                : Image.network(
-                                    userController.userModel.userimage!,
-                                    fit: BoxFit.cover,
-                                  )),
+                          backgroundColor: LightColors.kLavender,
+                          radius: 25.0,
+                          child: Container(
+                            width: 150,
+                            height: 150,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image: NetworkImage(userController
+                                        .userModel.userimage ??
+                                    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                       SizedBox(
                         width: 10,
@@ -115,46 +125,80 @@ class HomePage extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                  Container(
-                    color: Colors.transparent,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                    child: Column(
-                      children: <Widget>[
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            subheading('Schedule Overview'),
-                            GestureDetector(
-                              onTap: () {},
-                              child: calendarIcon(),
+                  GetBuilder<EventEditingController>(
+                      builder: (eventController) {
+                    return Container(
+                      color: Colors.transparent,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 10.0),
+                      child: Column(
+                        children: <Widget>[
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              subheading('Schedule Overview'),
+                              GestureDetector(
+                                onTap: () {},
+                                child: calendarIcon(),
+                              ),
+                            ],
+                          ),
+                          eventController.currentEvent != null
+                              ? Column(
+                                  children: [
+                                    TaskColumn(
+                                      icon: Icons.blur_circular,
+                                      iconBackgroundColor:
+                                          LightColors.kDarkYellow,
+                                      title: "In Progress",
+                                      subtitle:
+                                          eventController.currentEvent!.title,
+                                    ),
+                                    SizedBox(height: 15.0),
+                                  ],
+                                )
+                              : SizedBox(),
+                          eventController.nextEvent != null
+                              ? Column(
+                                  children: [
+                                    TaskColumn(
+                                      icon: Icons.alarm,
+                                      iconBackgroundColor: LightColors.kRed,
+                                      title: 'Upcoming',
+                                      subtitle:
+                                          eventController.nextEvent!.title,
+                                    ),
+                                    SizedBox(height: 15.0),
+                                  ],
+                                )
+                              : SizedBox(),
+                          InkWell(
+                            onTap: () {
+                              Get.bottomSheet(
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20),
+                                    ),
+                                  ),
+                                  child: emergencyContactsList(),
+                                ),
+                              );
+                            },
+                            child: TaskColumn(
+                              icon: Icons.check_circle_outline,
+                              iconBackgroundColor: LightColors.kBlue,
+                              title: 'Emergency Contact',
+                              subtitle: 'Police | Ambulance',
                             ),
-                          ],
-                        ),
-                        TaskColumn(
-                          icon: Icons.blur_circular,
-                          iconBackgroundColor: LightColors.kDarkYellow,
-                          title: 'In Progress',
-                          subtitle: 'None',
-                        ),
-                        SizedBox(height: 15.0),
-                        TaskColumn(
-                          icon: Icons.alarm,
-                          iconBackgroundColor: LightColors.kRed,
-                          title: 'Upcoming',
-                          subtitle: 'Departure',
-                        ),
-                        SizedBox(height: 15.0),
-                        TaskColumn(
-                          icon: Icons.check_circle_outline,
-                          iconBackgroundColor: LightColors.kBlue,
-                          title: 'Emergency Contact',
-                          subtitle: 'Police | Ambulance',
-                        ),
-                      ],
-                    ),
-                  ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
                   Container(
                     color: Colors.transparent,
                     padding:

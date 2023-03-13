@@ -21,7 +21,7 @@ class TaskColumn extends StatelessWidget {
           backgroundColor: iconBackgroundColor,
           child: Icon(
             icon,
-            size: 15.0,
+            size: 20.0,
             color: Colors.white,
           ),
         ),

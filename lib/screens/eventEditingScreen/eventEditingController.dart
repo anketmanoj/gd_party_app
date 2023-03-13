@@ -28,12 +28,66 @@ class EventEditingController extends GetxController {
   String _setFullAddress = "";
   String get setFullAddress => _setFullAddress;
   String url = "";
+  Event? _currentEvent;
+  Event? _nextEvent;
+
+  Event? get currentEvent => _currentEvent;
+  Event? get nextEvent => _nextEvent;
+
+  void setCurrentEvent(Event? event) {
+    _currentEvent = event;
+    update();
+  }
+
+  void setNextEvent(Event? event) {
+    _nextEvent = event;
+    update();
+  }
 
   // run getEventsListFromDb() when the controller is initialized once
   @override
   void onInit() {
     super.onInit();
-    getEventsListFromDb();
+    getEventsListFromDb().then((value) {
+      getCurrentEvent();
+    });
+  }
+
+  // get upcoming event
+  void getUpcomingEvent() {
+    final now = DateTime.now();
+    final upcomingEvent = _events.firstWhereOrNull(
+      (event) => event.from.toDate().isAfter(now),
+    );
+    log("Upcoming event: ${upcomingEvent!.title}");
+    setNextEvent(upcomingEvent);
+    // getNextEvent();
+  }
+
+  // get current event based on DateTime
+  void getCurrentEvent() {
+    final now = DateTime.now();
+    final currentEvent = _events.firstWhereOrNull(
+      (event) =>
+          event.from.toDate().isBefore(now) && event.to.toDate().isAfter(now),
+    );
+    if (currentEvent != null) {
+      log("Current event: ${currentEvent.title}");
+      setCurrentEvent(currentEvent);
+      getNextEvent();
+    } else {
+      getUpcomingEvent();
+    }
+  }
+
+  // get next event based on currentEvent
+  void getNextEvent() {
+    final nextEvent = _events.firstWhereOrNull(
+      (event) => event.from.toDate().isAfter(currentEvent!.from.toDate()),
+    );
+    if (nextEvent != null) {
+      setNextEvent(nextEvent);
+    }
   }
 
   Future<void> getEventsListFromDb() async {
@@ -41,6 +95,7 @@ class EventEditingController extends GetxController {
       log("Getting events list from db...");
       QuerySnapshot eventSnapshot = await FirebaseFirestore.instance
           .collection("events")
+          .where("from", isGreaterThanOrEqualTo: DateTime.now())
           .orderBy("from")
           .get();
       _events.value = eventSnapshot.docs

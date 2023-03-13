@@ -27,7 +27,6 @@ class LocationPage extends StatelessWidget {
                 onMapCreated: locationController.onMapCreated,
                 myLocationEnabled: true,
                 myLocationButtonEnabled: true,
-                trafficEnabled: true,
                 markers: locationController.markers.values.toSet(),
                 onTap: (argument) {
                   log("arguments == $argument");

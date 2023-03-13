@@ -50,6 +50,10 @@ dependencies:
   firebase_core: ^2.7.0
   cloud_firestore: ^4.4.3
   firebase_storage: ^11.0.14
+  url_launcher: ^6.1.10
+  image_picker: ^0.8.6+3
+  firebase_messaging: ^14.2.5
+  flutter_local_notifications: ^13.0.0
 
 dev_dependencies:
   flutter_test:

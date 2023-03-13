@@ -1,5 +1,5 @@
 import 'package:gd_party_app/navigation/mainController.dart';
-import 'package:gd_party_app/screens/ProfileScreen/controllers/profileController.dart';
+import 'package:gd_party_app/screens/ProfileScreen/profileController.dart';
 import 'package:gd_party_app/screens/ScheduleScreen/controllers/scheduleController.dart';
 import 'package:gd_party_app/screens/eventEditingScreen/eventEditingController.dart';
 import 'package:gd_party_app/screens/homeScreen/controllers/homeController.dart';
