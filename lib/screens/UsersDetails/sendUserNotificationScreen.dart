@@ -74,6 +74,8 @@ class SendUserNotification extends StatelessWidget {
                                   child: CircularProgressIndicator(),
                                 ),
                               );
+
+                              log("usermodel token is: ${userModel.userDeviceToken}");
                               //  Send notification
                               await userController.adminSendNotificationToUser(
                                 adminSelectedUser: userModel,
@@ -81,7 +83,7 @@ class SendUserNotification extends StatelessWidget {
                                 body: _bodyController.text,
                               );
 
-                              // Get.back();
+                              Get.back();
 
                               absorbing.value = false;
                             }

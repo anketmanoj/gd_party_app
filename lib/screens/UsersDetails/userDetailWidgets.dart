@@ -10,6 +10,7 @@ import 'package:sizer/sizer.dart';
 
 void onMoreOptionsClicked({required UserModel userModel}) {
   log('More options clicked');
+  log("user device token : ${userModel.userDeviceToken}");
 
   Get.bottomSheet(
     Container(

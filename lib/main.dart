@@ -29,6 +29,20 @@ void main() async {
   await SharedPreferencesHelper.initSharedPrefs();
   await FirebaseMessaging.instance.requestPermission();
 
+  late final FirebaseMessaging _messaging;
+
+  _messaging = FirebaseMessaging.instance;
+
+  NotificationSettings settings = await _messaging.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+
   const AndroidNotificationChannel channel = AndroidNotificationChannel(
     'high_importance_channel', // id
     'High Importance Notifications', // title
@@ -74,6 +88,7 @@ void main() async {
     badge: true,
     sound: true,
   );
+
   runApp(const MyApp());
 }
 

@@ -128,6 +128,7 @@ class UserController extends GetxController {
       {required String title,
       required String body,
       required UserModel adminSelectedUser}) async {
+    log("adminSelectedUser: ${adminSelectedUser.userDeviceToken}");
     await _fcmNotificationService.sendNotificationToUser(
         to: adminSelectedUser.userDeviceToken!, //To change once set up
         title: title,
@@ -188,6 +189,18 @@ class UserController extends GetxController {
   void logout() {
     SharedPreferencesHelper.setBool("isLoggedIn", false);
     Get.offNamed(LoginScreen.routeName);
+  }
+
+  Future<void> createUser(
+      {required String username, required String password}) async {
+    log("createUser() called");
+    await FirebaseFirestore.instance.collection("users").doc(username).set({
+      'username': username,
+      'password': password,
+      'isAdmin': false,
+      'arrivalDate': Timestamp.fromDate(DateTime(2023, 4, 1)),
+      'userDeviceToken': "",
+    });
   }
 
   // Log user in

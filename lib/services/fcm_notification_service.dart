@@ -8,7 +8,7 @@ class FCMNotificationService {
   final String _endpoint = "https://fcm.googleapis.com/fcm/send";
   final String _contentType = "application/json";
   final String _authorization =
-      "Bearer AAAASKYtUn8:APA91bEfnCCREe1t904PpyViKBJOmFXExosFlVy6fj6qw6_5rLxEHZA6VXNzeHNTzi7hqR4cfqWMm_Xh_CVMuVPq-ph0GwBqMQsjf0LJb0k_q8nU0yM9zK48J3xhgiieMcqjrR68c0U9";
+      "Bearer AAAAolRoEew:APA91bEEZm-n7UWjfDKbZp6CgcgE2ri7C-Cu-c1jahTN3KSqcgrBAZtfneacA524OBjGepot2bSId6V7WUHsxwINX9RTvyMgGrFqXAO0E3HO4GLOuQlOuHFUzigzi6EIlx4wFeau9_FA";
   Future<http.Response?> sendNotificationToUser({
     required String to,
     required String title,
