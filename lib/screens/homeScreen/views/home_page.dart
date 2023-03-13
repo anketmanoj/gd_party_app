@@ -3,6 +3,7 @@ import 'package:gd_party_app/constants/colors.dart';
 import 'package:gd_party_app/navigation/custom_bottom_navigation_bar.dart';
 import 'package:gd_party_app/screens/ProfileScreen/profilePageWidgets.dart';
 import 'package:gd_party_app/screens/eventEditingScreen/eventEditingController.dart';
+import 'package:gd_party_app/screens/homeScreen/views/home_page_widgets.dart';
 import 'package:gd_party_app/services/Users/userController.dart';
 import 'package:gd_party_app/widgets/active_project_card.dart';
 import 'package:gd_party_app/widgets/task_column.dart';
@@ -199,6 +200,18 @@ class HomePage extends StatelessWidget {
                       ),
                     );
                   }),
+                  Container(
+                    color: Colors.transparent,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        subheading('Arrival Progress'),
+                        TimelineDelivery(),
+                      ],
+                    ),
+                  ),
                   Container(
                     color: Colors.transparent,
                     padding:
