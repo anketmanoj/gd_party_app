@@ -6,7 +6,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gd_party_app/navigation/mainPage.dart';
+import 'package:gd_party_app/screens/UsersDetails/sendAllNotificationScreen.dart';
 import 'package:gd_party_app/screens/UsersDetails/usersDetailPage.dart';
+import 'package:gd_party_app/screens/eventEditingScreen/eventEditingPage.dart';
 import 'package:gd_party_app/screens/loginScreen/loginScreenView.dart';
 import 'package:gd_party_app/services/Users/adminFunctionsModel.dart';
 import 'package:gd_party_app/services/Users/userModel.dart';
@@ -74,6 +76,7 @@ class UserController extends GetxController {
         icon: Icons.event,
         onTap: () {
           log("Add Event pressed");
+          Get.to(() => EventEditingPage());
         },
       ),
       AdminFunctionalityModel(
@@ -81,6 +84,7 @@ class UserController extends GetxController {
         icon: Icons.notifications,
         onTap: () {
           log("Send Notification pressed");
+          Get.toNamed(SendAllUsersNotification.routeName);
         },
       ),
     ];
@@ -137,15 +141,21 @@ class UserController extends GetxController {
     update();
   }
 
-  Future<void> getAllUsersFromDb() async {
-    log("getAllUsersFromDb() called");
-    loadAdminFunctionalityList();
-    QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection("users").get();
-    _userList.value = querySnapshot.docs
-        .map((doc) => UserModel.fromJson(doc.data() as Map<String, dynamic>))
-        .toList();
-    log("_userList.length: ${_userList.length}");
+  Future<void> sendNotificationToAllUsers({
+    required String title,
+    required String body,
+  }) async {
+    await FirebaseFirestore.instance.collection("users").get().then((value) {
+      for (var doc in value.docs) {
+        if (doc.data().containsKey('userDeviceToken'))
+          _fcmNotificationService.sendNotificationToUser(
+            to: doc.data()['userDeviceToken'],
+            title: title,
+            body: body,
+          );
+      }
+    });
+
     update();
   }
 

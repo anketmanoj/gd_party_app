@@ -9,6 +9,7 @@ import 'package:gd_party_app/navigation/mainPAge.dart';
 import 'package:gd_party_app/navigation/main_binding.dart';
 import 'package:gd_party_app/router.dart';
 import 'package:gd_party_app/screens/UsersDetails/editUserPage.dart';
+import 'package:gd_party_app/screens/UsersDetails/sendAllNotificationScreen.dart';
 import 'package:gd_party_app/screens/UsersDetails/sendUserNotificationScreen.dart';
 import 'package:gd_party_app/screens/UsersDetails/usersDetailPage.dart';
 import 'package:gd_party_app/screens/loginScreen/loginScreenView.dart';
@@ -147,6 +148,10 @@ class MyApp extends StatelessWidget {
             page: () => SendUserNotification(
               userModel: Get.arguments,
             ),
+          ),
+          GetPage(
+            name: SendAllUsersNotification.routeName,
+            page: () => SendAllUsersNotification(),
           ),
         ],
       );

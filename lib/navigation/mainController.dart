@@ -13,7 +13,7 @@ class MainController extends GetxController {
     tabIndex = index;
     if (tabIndex == 3) {
       final UserController userController = Get.put(UserController());
-      userController.getAllUsersFromDb();
+      userController.loadAdminFunctionalityList();
     }
     if (tabIndex == 2) {
       final LocationController locationController =
