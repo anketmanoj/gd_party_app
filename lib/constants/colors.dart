@@ -19,4 +19,8 @@ class LightColors {
   static const Color kGreen = Color(0xFF309397);
 
   static const Color kDarkBlue = Color(0xFF0D253F);
+
+  static const Color completedProgress = Color(0xFF27AA69);
+  static const Color currentProgress = Color(0xFF2B619C);
+  static const Color yetToStartProgress = Color(0xFFDADADA);
 }

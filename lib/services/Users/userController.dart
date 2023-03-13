@@ -211,6 +211,88 @@ class UserController extends GetxController {
       'arrivalDate': Timestamp.fromDate(DateTime(2023, 4, 1)),
       'userDeviceToken': "",
     });
+
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(username)
+        .collection("arrivalProgress")
+        .doc("departureAirport")
+        .set({
+      "title": "Departure Airport",
+      "completed": false,
+      "first": true,
+      "index": 0,
+      "docId": "departureAirport",
+      "message":
+          "You have arrived at the airport. Please check in and wait for your flight.",
+      "timestamp": null,
+      "imageUrl": 'https://static.thenounproject.com/png/340428-200.png',
+    });
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(username)
+        .collection("arrivalProgress")
+        .doc("landedInJapan")
+        .set({
+      "title": "Landed In Japan",
+      "completed": false,
+      "first": false,
+      "index": 1,
+      "next": false,
+      "docId": "landedInJapan",
+      "message": "You have landed in Japan and are on your way to Immigration",
+      "timestamp": null,
+      "imageUrl": 'https://static.thenounproject.com/png/410143-200.png',
+    });
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(username)
+        .collection("arrivalProgress")
+        .doc("throughImmigration")
+        .set({
+      "title": "Through Immigration",
+      "completed": false,
+      "first": false,
+      "index": 2,
+      "next": false,
+      "message": "Youve completed Immigration and are headed to Baggage Claim",
+      "docId": "throughImmigration",
+      "timestamp": null,
+      "imageUrl": 'https://static.thenounproject.com/png/31-200.png',
+    });
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(username)
+        .collection("arrivalProgress")
+        .doc("baggageClaim")
+        .set({
+      "title": "Baggage Claim",
+      "completed": false,
+      "first": false,
+      "index": 3,
+      "next": false,
+      "message": "You have claimed your baggage and are headed to the exit",
+      "docId": "baggageClaim",
+      "timestamp": null,
+      "imageUrl": 'https://static.thenounproject.com/png/569938-200.png',
+    });
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(username)
+        .collection("arrivalProgress")
+        .doc("waitingForPickup")
+        .set({
+      "title": "Waiting For Pickup",
+      "completed": false,
+      "first": false,
+      "index": 4,
+      "next": false,
+      "message": "You are waiting for your pickup",
+      "docId": "waitingForPickup",
+      "timestamp": null,
+      "imageUrl":
+          'https://amsholland.com/wp-content/uploads/2020/04/airport-pickup-icon-amsholland.fw_.png',
+    });
   }
 
   // Log user in
