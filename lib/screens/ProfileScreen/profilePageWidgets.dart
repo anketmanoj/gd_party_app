@@ -97,12 +97,6 @@ Widget userNameAndBio() {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Text(
-              userController.userModel.userBio ?? "No Bio",
-              style: TextStyle(
-                fontSize: 16,
-              ),
-            ),
           ],
         ),
       );
@@ -158,6 +152,30 @@ Widget emergencyTile() {
             subtitle: 'Police | Ambulance | GD Team',
           ),
         ),
+        SizedBox(height: 10),
+        InkWell(
+          onTap: () {
+            //  ! Todo: Submit users allergies and medical conditions
+          },
+          child: TaskColumn(
+            icon: Icons.local_hospital,
+            iconBackgroundColor: LightColors.kRed,
+            title: 'Allergies and Medical Conditions',
+            subtitle: 'Please tell us about your dietary restrictions',
+          ),
+        ),
+        SizedBox(height: 10),
+        InkWell(
+          onTap: () {
+            //  ! Todo: Submit users allergies and medical conditions
+          },
+          child: TaskColumn(
+            icon: Icons.emergency,
+            iconBackgroundColor: LightColors.kGreen,
+            title: 'Emergency Contact',
+            subtitle: 'Emergency Contact Details',
+          ),
+        ),
       ],
     ),
   );
@@ -175,6 +193,7 @@ Widget adminFunctionality() {
           children: [
             Divider(),
             GridView.builder(
+              physics: NeverScrollableScrollPhysics(),
               gridDelegate:
                   SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
               shrinkWrap: true,

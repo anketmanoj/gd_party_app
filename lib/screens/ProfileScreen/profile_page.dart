@@ -16,13 +16,15 @@ class ProfilePage extends GetView {
 
     return Scaffold(
         body: SafeArea(
-      child: Column(
-        children: [
-          profileImage(context: context),
-          userNameAndBio(),
-          emergencyTile(),
-          adminFunctionality(),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            profileImage(context: context),
+            userNameAndBio(),
+            emergencyTile(),
+            adminFunctionality(),
+          ],
+        ),
       ),
     ));
   }

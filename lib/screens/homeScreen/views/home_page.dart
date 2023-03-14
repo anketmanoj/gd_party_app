@@ -212,117 +212,117 @@ class HomePage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Container(
-                    color: Colors.transparent,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        subheading('Translation Shortcut'),
-                        SizedBox(height: 5.0),
-                        Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Container(
-                                height: 25.h,
-                                decoration: BoxDecoration(
-                                  color: kFifthColor,
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Expanded(
-                                          flex: 1,
-                                          child: Container(
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              "English",
-                                            ),
-                                          ),
-                                        ),
-                                        IconButton(
-                                          onPressed: () {},
-                                          icon: Icon(
-                                              Icons.change_circle_outlined),
-                                        ),
-                                        Expanded(
-                                          flex: 1,
-                                          child: Container(
-                                            child: Text("Japanese"),
-                                            alignment: Alignment.center,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    color: Colors.transparent,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        subheading('Currency Converter'),
-                        SizedBox(height: 5.0),
-                        Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: kFifthColor,
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Expanded(
-                                          flex: 1,
-                                          child: Container(
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              "USD",
-                                            ),
-                                          ),
-                                        ),
-                                        IconButton(
-                                          onPressed: () {},
-                                          icon: Icon(
-                                              Icons.change_circle_outlined),
-                                        ),
-                                        Expanded(
-                                          flex: 1,
-                                          child: Container(
-                                            child: Text("YEN"),
-                                            alignment: Alignment.center,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                  // Container(
+                  //   color: Colors.transparent,
+                  //   padding:
+                  //       EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                  //   child: Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: <Widget>[
+                  //       subheading('Translation Shortcut'),
+                  //       SizedBox(height: 5.0),
+                  //       Row(
+                  //         children: <Widget>[
+                  //           Expanded(
+                  //             child: Container(
+                  //               height: 25.h,
+                  //               decoration: BoxDecoration(
+                  //                 color: kFifthColor,
+                  //                 borderRadius: BorderRadius.circular(20),
+                  //               ),
+                  //               child: Column(
+                  //                 children: [
+                  //                   Row(
+                  //                     mainAxisAlignment:
+                  //                         MainAxisAlignment.center,
+                  //                     children: [
+                  //                       Expanded(
+                  //                         flex: 1,
+                  //                         child: Container(
+                  //                           alignment: Alignment.center,
+                  //                           child: Text(
+                  //                             "English",
+                  //                           ),
+                  //                         ),
+                  //                       ),
+                  //                       IconButton(
+                  //                         onPressed: () {},
+                  //                         icon: Icon(
+                  //                             Icons.change_circle_outlined),
+                  //                       ),
+                  //                       Expanded(
+                  //                         flex: 1,
+                  //                         child: Container(
+                  //                           child: Text("Japanese"),
+                  //                           alignment: Alignment.center,
+                  //                         ),
+                  //                       ),
+                  //                     ],
+                  //                   ),
+                  //                 ],
+                  //               ),
+                  //             ),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // Container(
+                  //   color: Colors.transparent,
+                  //   padding:
+                  //       EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                  //   child: Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: <Widget>[
+                  //       subheading('Currency Converter'),
+                  //       SizedBox(height: 5.0),
+                  //       Row(
+                  //         children: <Widget>[
+                  //           Expanded(
+                  //             child: Container(
+                  //               decoration: BoxDecoration(
+                  //                 color: kFifthColor,
+                  //                 borderRadius: BorderRadius.circular(20),
+                  //               ),
+                  //               child: Column(
+                  //                 children: [
+                  //                   Row(
+                  //                     mainAxisAlignment:
+                  //                         MainAxisAlignment.center,
+                  //                     children: [
+                  //                       Expanded(
+                  //                         flex: 1,
+                  //                         child: Container(
+                  //                           alignment: Alignment.center,
+                  //                           child: Text(
+                  //                             "USD",
+                  //                           ),
+                  //                         ),
+                  //                       ),
+                  //                       IconButton(
+                  //                         onPressed: () {},
+                  //                         icon: Icon(
+                  //                             Icons.change_circle_outlined),
+                  //                       ),
+                  //                       Expanded(
+                  //                         flex: 1,
+                  //                         child: Container(
+                  //                           child: Text("YEN"),
+                  //                           alignment: Alignment.center,
+                  //                         ),
+                  //                       ),
+                  //                     ],
+                  //                   ),
+                  //                 ],
+                  //               ),
+                  //             ),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                 ],
               ),
             ),

@@ -13,6 +13,7 @@ import 'package:gd_party_app/screens/UsersDetails/sendAllNotificationScreen.dart
 import 'package:gd_party_app/screens/UsersDetails/sendUserNotificationScreen.dart';
 import 'package:gd_party_app/screens/UsersDetails/usersDetailPage.dart';
 import 'package:gd_party_app/screens/loginScreen/loginScreenView.dart';
+import 'package:gd_party_app/services/Users/UsersArrivalProgressScreen.dart';
 import 'package:gd_party_app/services/shared_preference_service.dart';
 import 'package:gd_party_app/screens/homeScreen/views/home_page.dart';
 import 'package:gd_party_app/screens/onboardingScreen/views/onboarding_page.dart';
@@ -128,6 +129,10 @@ class MyApp extends StatelessWidget {
           GetPage(
             name: OnboardingPage.routeName,
             page: () => OnboardingPage(),
+          ),
+          GetPage(
+            name: UsersArrivalProgressScreen.routeName,
+            page: () => UsersArrivalProgressScreen(),
           ),
           GetPage(
             name: LoginScreen.routeName,

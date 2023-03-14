@@ -10,6 +10,7 @@ import 'package:gd_party_app/screens/UsersDetails/sendAllNotificationScreen.dart
 import 'package:gd_party_app/screens/UsersDetails/usersDetailPage.dart';
 import 'package:gd_party_app/screens/eventEditingScreen/eventEditingPage.dart';
 import 'package:gd_party_app/screens/loginScreen/loginScreenView.dart';
+import 'package:gd_party_app/services/Users/UsersArrivalProgressScreen.dart';
 import 'package:gd_party_app/services/Users/adminFunctionsModel.dart';
 import 'package:gd_party_app/services/Users/userModel.dart';
 import 'package:gd_party_app/services/fcm_notification_service.dart';
@@ -85,6 +86,14 @@ class UserController extends GetxController {
         onTap: () {
           log("Send Notification pressed");
           Get.toNamed(SendAllUsersNotification.routeName);
+        },
+      ),
+      AdminFunctionalityModel(
+        title: "User Arrival Progress",
+        icon: Icons.airplanemode_active,
+        onTap: () {
+          log("User Arrival Progress pressed");
+          Get.toNamed(UsersArrivalProgressScreen.routeName);
         },
       ),
     ];
@@ -221,6 +230,7 @@ class UserController extends GetxController {
       "title": "Departure Airport",
       "completed": false,
       "first": true,
+      "next": true,
       "index": 0,
       "docId": "departureAirport",
       "message":

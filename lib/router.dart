@@ -12,6 +12,7 @@ import 'package:gd_party_app/screens/loginScreen/loginScreenView.dart';
 import 'package:gd_party_app/screens/onboardingScreen/views/onboarding_page.dart';
 import 'package:gd_party_app/screens/ScheduleScreen/views/schedule_page.dart';
 import 'package:gd_party_app/screens/TranslationScreen/views/translation_page.dart';
+import 'package:gd_party_app/services/Users/UsersArrivalProgressScreen.dart';
 import 'package:gd_party_app/services/Users/userModel.dart';
 
 Route<dynamic> onGenerateRoute(RouteSettings routeSettings) {
@@ -20,6 +21,11 @@ Route<dynamic> onGenerateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (context) => EventEditingPage(),
+      );
+    case UsersArrivalProgressScreen.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (context) => UsersArrivalProgressScreen(),
       );
     case EditUserPage.routeName:
       return MaterialPageRoute(
